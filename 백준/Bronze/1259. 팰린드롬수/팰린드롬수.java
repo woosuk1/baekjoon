@@ -9,8 +9,10 @@ public class Main {
         String temp;
 
         while(true){
+            //'\n'을 읽지 않는 입력
             temp = sc.nextLine();
 
+            //문자열 비교 api
             if(Objects.equals(temp, "0")){
                 break;
             }
@@ -18,10 +20,13 @@ public class Main {
             int a = temp.length();
 
             if(a % 2 == 0){
+                //c++ substr처럼 인자가 2개 일 때 [first, end) 범위
                 String temp1 = temp.substring(0, a/2);
+                //reverse를 하기 위해,,,, StringBuilder 클래스 호출
                 StringBuilder sb = new StringBuilder(temp.substring(a/2));
                 String temp2 = sb.reverse().toString();
 
+                //문자열 비교
                 if(temp1.equals(temp2)){
                     System.out.println("yes");
                 }
