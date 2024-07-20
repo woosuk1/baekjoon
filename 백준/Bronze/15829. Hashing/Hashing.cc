@@ -37,9 +37,11 @@ int main() {
 
 	ll ans = 0;
 
+	ll temp = 1;
+
 	for (int i = 0; i < n; i++) {
-		ans += (target[i] - 'a' + 1) * pow(31,i) ;
-		ans %= 1234567891;
+		ans = (ans + (target[i] - 96) * temp) % 1234567891;
+		temp = temp * 31 % 1234567891;
 	}
 	
 	cout << ans;
