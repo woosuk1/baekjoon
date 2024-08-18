@@ -6,7 +6,6 @@
 #include <cstring>
 using namespace std;
 
-//문자열들을 가지고 있는 배열들을 만들고 싶다.
 vector<vector<string>> check;
 // 가변적으로 사이즈 생성
 vector<vector<string>> save;
@@ -64,19 +63,8 @@ int solution(vector<string> user_id, vector<string> banned_id) {
         }
     }
     
-    //확인용(중복되는 경우를 제한 경우)
-    for(int i=0; i<save.size(); i++){
-        if(save[i].size() < 1)
-            continue;        
-        answer *= save[i].size();
-    }
-    
-    //stack 용도
     vector<string> current;
-    //dfs를 통해서..
     dfs(0, current);    
-    
-    
     
     // 직접 비교하려다 참은 것
     for(int i=0; i<check.size(); i++){
@@ -90,7 +78,6 @@ int solution(vector<string> user_id, vector<string> banned_id) {
     for(int i=0; i<check.size(); i++){
         if(visited[i])
             continue;
-        // vector<int> temp_idx;
         for(int j=i+1; j<check.size(); j++){
             if(visited[j])            
                 continue;
@@ -99,23 +86,12 @@ int solution(vector<string> user_id, vector<string> banned_id) {
                 visited[j] = true;                     
             }    
         }
-        // for(int k=0; k<temp_idx.size(); k++){
-        //     check.erase(temp_idx[k]);
-        // }
     }
     
     for(int i=0; i<check.size(); i++){
         if(!visited[i])
             answer++;
     }
-    
-    // 출력문 
-    // for(int i=0; i<check.size(); i++){
-    //     for(int j=0; j<check[i].size(); j++){
-    //         cout << check[i][j] << ' ';
-    //     }
-    //     cout << '\n';
-    // }
     
     return answer;
 }
