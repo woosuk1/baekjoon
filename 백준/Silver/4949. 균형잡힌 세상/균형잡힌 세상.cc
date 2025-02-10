@@ -1,63 +1,76 @@
 #include <iostream>
+#include <cstdio>
+#include <algorithm> 
 #include <vector>
-#include <cmath>
-#include <algorithm>
-#include <map>
-#include <queue>
 #include <string>
-#include <cstring>
-#include <deque>
-#include <climits>
+#include <map>
+#include <limits.h>
+#include <queue>
 #include <set>
+#include <math.h>
 #include <stack>
+#include <deque>
+
 using namespace std;
 
-using ll = long long;
-
 int main() {
-
-	string temp;
-
-//	stack<char> stk; //초기화 이슈
-
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
+	
 	while (1) {
-		getline(cin, temp);
-
-		if (temp == ".")
-			break;
-
-		int flag = 0;
-
+		string s;
+		bool flag = true;
 		stack<char> stk;
 
-		for (int i = 0; i < temp.size(); i++) { //문자열 전체 순회하면서 (, [ 찾기
-			if (temp[i] == ')' || temp[i] == ']') {
-				if (stk.empty()) { //stack이 비었을 때,
-					flag = 1;
-					break;
-				}
-				else if ((stk.top() == '(' && temp[i] == ')') || stk.top() == '[' && temp[i] == ']') { // stk.top과 temp[i]
-					stk.pop();
-					continue;
-				}
-				else {
-					flag = 1;
-					break;
-				}
-				
-			}
-			else if (temp[i] == '(' || temp[i] == '[') {
-				stk.push(temp[i]);
-			}
+
+		getline(cin, s);
+
+		// 마무리 조건
+		if (s.size() == 1 && s[0] == '.') {
+			break;
 		}
 
-		if (!stk.empty())
-			flag = 1;
+		for (int i = 0; i < s.size(); i++) {
+			if (s[i] == '(' || s[i] == '[') {
+				stk.push(s[i]);
+			}
+			else if (s[i] == ']') {
+				if (!stk.empty()) {
+					if (stk.top() != '[') {
+						flag = false;
+						break;
+					}
+					stk.pop();
+				}
+				else {
+					flag = false;
+					break;
+				}
+			}
+			else if (s[i] == ')') {
+				if (!stk.empty()) {
+					if (stk.top() != '(') {
+						flag = false;
+						break;
+					}
+					stk.pop();
+				}
+				else {
+					flag = false;
+					break;
+				}
+			}
 
-		if (flag == 1)
-			cout << "no\n";
-		else
+		}
+
+		if (stk.empty() && flag) {
 			cout << "yes\n";
+		}
+		else {
+			cout << "no\n";
+		}
+
 	}
 
 	return 0;
