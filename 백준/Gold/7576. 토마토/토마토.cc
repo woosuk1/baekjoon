@@ -1,80 +1,86 @@
-#include <vector>
+#include <iostream>
+#include <cstdio>
 #include <algorithm>
-#include <stdio.h>
-#include <cstring>
+#include <vector>
+#include <string>
+#include <map>
+#include <limits.h>
 #include <queue>
+#include <set>
+#include <math.h>
+#include <stack>
+#include <deque>
 
 using namespace std;
 
-struct tomato {
-    int y, x;
-};
+int dx[4] = {0, 0, -1, 1};
+int dy[4] = {-1, 1, 0, 0};
 
-queue<tomato> q;
+int arr[1001][1001] = {0};
+int visited[1001][1001] = {0};
+int real_visited[1001][1001] = {0};
 
-//index 0은 사용하지 않음으로 배열을 하나 추가
-int map[1001][1001];
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
 
-int M, N, cnt = 0;
+    int n, m, ans = 0, chk = 0, cnt = 0;
+
+    queue<pair<int, int> > q;
+
+    cin >> m >> n;
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cin >> arr[i][j];
+            if (arr[i][j] == 1) {
+                q.push({i, j});
+            }
+            if (arr[i][j] == -1)
+                cnt++;
+            if (arr[i][j] == 0)
+                chk++;
+        }
+    }
+
+    if (!chk) {
+        cout << 0;
+        return 0;
+    }
 
 
-//int dir[8][2] = { {-1,0},{0,1},{1,0},{0,-1},{-1,1},{-1,-1},{1,1},{1,-1} }; //상하좌우대각 이동
-int dirX[4] = {0, 0, 1, -1};
-int dirY[4] = {1, -1, 0, 0};
-
-void bfs(void) {
     while (!q.empty()) {
+        int y = q.front().first;
+        int x = q.front().second;
 
-        int y = q.front().y;
-        int x = q.front().x;
         q.pop();
 
         for (int i = 0; i < 4; i++) {
-            int ny = y + dirY[i], nx = x + dirX[i];
-            if (ny < N && nx < M && ny >= 0 && nx >= 0) {
-                if (map[ny][nx] == 0) {
-                    map[ny][nx] = map[y][x] + 1;
-                    q.push({ ny, nx });
-                }
-            }
-        }
-    }
-}
+            int ny = y + dy[i];
+            int nx = x + dx[i];
 
-int main() {
-
-    scanf("%d %d", &M, &N); //가로, 세로 길이 입력
-    
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M; j++) {
-            scanf("%d", &map[i][j]);
-            if (map[i][j] == 1)
-                q.push({ i,j });
+            if (ny < 0 || ny >= n || nx < 0 || nx >= m) continue;
+            if (visited[ny][nx] || arr[ny][nx] == -1 || arr[ny][nx] == 1) continue;
+            visited[ny][nx] = 1;
+            arr[ny][nx] = arr[y][x] + 1;
+            // ans = max(ans, arr[ny][nx]);
+            q.push({ny, nx});
         }
     }
 
-    bfs();
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            ans = max(ans, arr[i][j]);
 
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M; j++) {
-            if (map[i][j] == 0) {
-                printf("-1");
+            if (arr[i][j] == 0) {
+                cout << -1;
                 return 0;
             }
-            if(cnt < map[i][j])
-                cnt = map[i][j];
         }
     }
 
-    printf("%d", cnt - 1);
-    //memset(visited, 0, sizeof(visited));
-    
-    /*
-    sort(graph.begin(), graph.end());
+    cout << ans - 1 << '\n';
 
-    for (int i = 0; i < graph.size(); i++) {
-        printf("%d\n", graph[i]);
-    }
-    */
     return 0;
 }
