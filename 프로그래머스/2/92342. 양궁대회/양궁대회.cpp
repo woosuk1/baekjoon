@@ -49,7 +49,6 @@ void backtrack(int n, int idx, int remain, vector<int> &answer, vector<int> &ria
     if (idx == 11) {
         if (remain > 0) rian[10] += remain;
         cal(apeach, rian, answer);
-        if (remain > 0) rian[10] -= remain;  // 원복
         return;
     }
 
