@@ -1,14 +1,10 @@
 def solution(myString):
     answer = []
+
+    myString = myString.split("x")
     
-    cnt = 0
     for i in myString:
-        if(i == 'x'):
-            answer.append(cnt)
-            cnt = 0
-        else:
-            cnt+=1
-    
-    answer.append(cnt)
+        print(i)
+        answer.append(len(i))
     
     return answer
